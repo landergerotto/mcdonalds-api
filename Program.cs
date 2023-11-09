@@ -13,9 +13,39 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<McDatabaseContext>();
-builder.Services.AddSingleton<IOrderRepository, FakeOrderRepository>();
+builder.Services.AddScoped<McDatabaseContext>();
+builder.Services.AddTransient<IOrderRepository, FakeOrderRepository>();
 
+// builder.Services.AddTransient
+    /* Vive apenas no tempo que a requisição ficar ativa. */
+// builder.Services.AddScoped
+    /* Vive apenas no tempo que a requisição ficar ativa. Contudo, pode ser reutilizado */
+// builder.Services.AddSingleton
+    /* A partir do momento que ele é invocado, ele sempre permanecerá ativo */
+    
+/*     
+            ^
+   Scoped   |                                       _______________
+            |                                       .             .
+  Transient |                                       _______________
+            |                                       .             .
+  Singleton |           ____________________________._____________._______________________
+            |           .                           .             .
+    req3    |           .                           _______________
+            |           .
+    req2    |           .       _____________
+            |           .
+    req1    |           __________
+            |
+    Server  | ____________________________________________________________________________ 
+            |______________________________________________________________________________>
+
+            S———————————————————————                            T————————.———————————————
+               .     .                                          T——.—————.———————————————
+               .     .                                             .     .
+            T——.—————.———————————————                           T——.—————.———————————————
+            T——.—————.———————————————                           T——.—————.———————————————
+ */
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -28,7 +28,7 @@ public class FakeOrderRepository : IOrderRepository
         return orderId; // noice
     }
 
-    public Task DeleveryOrder(int orderId)
+    public Task DeliveryOrder(int orderId)
     {
         throw new NotImplementedException();
     }

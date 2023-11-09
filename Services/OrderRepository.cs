@@ -44,14 +44,28 @@ public class OrderRepository : IOrderRepository
         await context.SaveChangesAsync();
     }
 
-    public Task DeleveryOrder(int orderId)
+    public async Task DeliveryOrder(int orderId)
     {
-        throw new System.NotImplementedException();
+        var currentOrder = await getOrder(orderId);
+        if (currentOrder is null)
+            throw new Exception("Order does not exist.");
+
+        currentOrder.DeliveryMoment = DateTime.Now.AddHours(2);
+
+        context.Update(currentOrder);
+        await context.SaveChangesAsync();
     }
 
-    public Task FinishOrder(int orderId)
+    public async Task FinishOrder(int orderId)
     {
-        throw new System.NotImplementedException();
+        var currentOrder = await getOrder(orderId);
+        if (currentOrder is null)
+            throw new Exception("Order does not exist.");
+
+        currentOrder.FinishMoment = DateTime.Now;
+
+        context.Update(currentOrder);
+        await context.SaveChangesAsync();
     }
 
     public Task<List<Product>> GetMenu(int orderId)
@@ -85,9 +99,22 @@ public class OrderRepository : IOrderRepository
         await context.SaveChangesAsync();
     }
 
-    public Task RemoveItem(int orderId, int itemId)
+    public async Task RemoveItem(int orderId, int productId)
     {
-        throw new System.NotImplementedException();
+        var order = await getOrder(orderId);
+        if (order is null)
+            throw new Exception("Order does not exist.");
+
+        var items =
+            from item in context.ClientOrderItems
+            where item.ProductId == productId && item.ClientOrderId == orderId
+            select item;
+        var selectedItem = await items.FirstOrDefaultAsync();
+        if (selectedItem is null)
+            throw new Exception("Product does not exist.");
+
+        context.Remove(selectedItem);
+        await context.SaveChangesAsync();
     }
 
     private async Task<ClientOrder> getOrder(int orderId)
