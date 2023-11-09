@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace McDonaldasAPI.Model;
+namespace McDonaldsAPI.Model;
 
 public partial class McDatabaseContext : DbContext
 {
@@ -32,13 +32,13 @@ public partial class McDatabaseContext : DbContext
     {
         modelBuilder.Entity<ClientOrder>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ClientOr__3214EC27FD060A9B");
+            entity.HasKey(e => e.Id).HasName("PK__ClientOr__3214EC276E728546");
 
             entity.ToTable("ClientOrder");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.DeliveryMoment).HasColumnType("datetime");
-            entity.Property(e => e.Moment).HasColumnType("datetime");
+            entity.Property(e => e.FinishMoment).HasColumnType("datetime");
             entity.Property(e => e.OrderCode)
                 .IsRequired()
                 .HasMaxLength(12)
@@ -53,7 +53,7 @@ public partial class McDatabaseContext : DbContext
 
         modelBuilder.Entity<ClientOrderItem>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ClientOr__3214EC27F2CBA093");
+            entity.HasKey(e => e.Id).HasName("PK__ClientOr__3214EC27D7516D3F");
 
             entity.ToTable("ClientOrderItem");
 
@@ -74,12 +74,13 @@ public partial class McDatabaseContext : DbContext
 
         modelBuilder.Entity<MenuItem>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__MenuItem__3214EC27D183524C");
+            entity.HasKey(e => e.Id).HasName("PK__MenuItem__3214EC27087A5A99");
 
             entity.ToTable("MenuItem");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Price).HasColumnType("decimal(5, 2)");
+            entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.StoreId).HasColumnName("StoreID");
 
             entity.HasOne(d => d.Product).WithMany(p => p.MenuItems)
@@ -95,7 +96,7 @@ public partial class McDatabaseContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Product__3214EC274EEF4638");
+            entity.HasKey(e => e.Id).HasName("PK__Product__3214EC27775CB85B");
 
             entity.ToTable("Product");
 
@@ -106,13 +107,13 @@ public partial class McDatabaseContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.ProductName)
                 .IsRequired()
-                .HasMaxLength(200)
+                .HasMaxLength(80)
                 .IsUnicode(false);
         });
 
         modelBuilder.Entity<Store>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Store__3214EC27B3EF1B40");
+            entity.HasKey(e => e.Id).HasName("PK__Store__3214EC272C78F7B8");
 
             entity.ToTable("Store");
 

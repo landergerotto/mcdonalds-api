@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <RootNamespace>McDonaldasAPI</RootNamespace>
+    <RootNamespace>McDonaldsAPI</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

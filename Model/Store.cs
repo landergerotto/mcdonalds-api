@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace McDonaldasAPI.Model;
+namespace McDonaldsAPI.Model;
 
 public partial class Store
 {
