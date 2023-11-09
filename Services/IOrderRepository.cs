@@ -11,8 +11,8 @@ public interface IOrderRepository
     Task CancelOrder(int orderId);
     Task<List<Product>> GetMenu(int orderId);
     Task<List<Product>> GetOrderItems(int orderId);
-    Task AddItem(int orderId, int itemId);
-    Task RemoveItem(int orderId, int itemId);
+    Task AddItem(int orderId, int productId);
+    Task RemoveItem(int orderId, int productId);
     Task FinishOrder(int orderId);
     Task DeleveryOrder(int orderId);
 }
